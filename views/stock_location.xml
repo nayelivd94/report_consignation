@@ -1,0 +1,17 @@
+<openerp>
+    <data>
+        <record id="view_stocklocation_form_inherit" model="ir.ui.view">
+            <field name="name">view.stocklocation.form.add.text.field</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group/field[@name='usage']" position="after">
+                    <field name="is_consignation"/>
+                    <field name="supplier_id"/>
+                </xpath>
+            </field>
+    </record>
+
+
+    </data>
+</openerp>

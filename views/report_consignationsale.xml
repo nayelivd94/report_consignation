@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+           <!-- report , stock inventories date... start -->
+        <record model="ir.ui.view" id="report_saleconsignation_tree">
+            <field name="name">report.saleconsignation.tree</field>
+            <field name="model">report.saleconsignation</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte Ventas de Consignación" create="false">
+                     <field name="origin"/>
+                        <field name="status"/>
+                        <field name="location_id"/>
+                        <field name="product_id" />
+                        <field name="default_code"/>
+                        <field name="product_qty"/>
+                        <field name="ordered_qty"/>
+                        <field name="qty_done"/>
+                        <field name="date_done"/>
+                    <field name="process"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="report_saleconsignation_search">
+            <field name="name">report.saleconsignation.search</field>
+            <field name="model">report.saleconsignation</field>
+            <field name="arch" type="xml">
+                <search string="Reporte Ventas de Consignación">
+                 <field name="date_done"/>
+                <group expand="1" string="Group By">
+                </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="report_saleconsignation_form">
+            <field name="name">report.saleconsignation.form</field>
+            <field name="model">report.saleconsignation</field>
+            <field name="arch" type="xml">
+                <form string="Reporte Ventas de Consignación">
+                    <group>
+                        <field name="origin"/>
+                        <field name="status"/>
+                        <field name="location_id"/>
+                        <field name="product_id" />
+                        <field name="default_code"/>
+                        <field name="product_qty"/>
+                        <field name="ordered_qty"/>
+                        <field name="qty_done"/>
+                        <field name="date_done"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_reportsaleconsignation">
+            <field name="name">Reporte Ventas de Consignación</field>
+            <field name="res_model">report.saleconsignation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'group_by':'location_id'}</field>
+            <field name="domain">[]</field>
+            <field name="help">Reporte Ventas de Consignación...)</field>
+        </record>
+
+        <menuitem parent="stock.menu_warehouse_report" action="action_reportsaleconsignation" id="menu_report_saleconsignation" sequence="1"
+           />
+
+    </data>
+</odoo>

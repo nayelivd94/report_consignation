@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_consignation_process" model="ir.ui.view">
+            <field name="name">Procesar</field>
+            <field name="model">consignation.process</field>
+            <field name="arch" type="xml">
+                <form string="Procesar">
+                    <p class="oe_grey">
+                        Proceso de Consignación
+                    </p>
+                    <group>
+                        <field name="count" invisible="[('count','=',1)]" readonly="True"/>
+                    </group>
+                    <footer>
+                        <button name="process" string="Procesar" type="object"
+                            class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Crear Consignación"
+            res_model="consignation.process"
+            src_model="report.saleconsignation"
+
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_consignation_process"/>
+
+</odoo>
