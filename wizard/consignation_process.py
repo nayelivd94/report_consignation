@@ -42,6 +42,8 @@ class PartnerProcess(models.TransientModel):
                     'state': 'draft',
                     'date_order': self.date_order,
                     'date_planned': self.date_order,
+                    'picking_type_id': loc.picking_type_id.id,
+                    'dest_address_id': loc.det_address_id.id,
                 }
                 po = self.env['purchase.order'].create(purchase)
                 line =[]
@@ -84,6 +86,7 @@ class PartnerProcess(models.TransientModel):
                         'state': 'draft',
                         'date_planned': date_planned,
                         'taxes_id': [(6, 0, taxes_id.ids)],
+
 
                     }
                     self.env['purchase.order.line'].create(purchase_line)

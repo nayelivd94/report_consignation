@@ -8,6 +8,8 @@
                 <xpath expr="//group/group/field[@name='usage']" position="after">
                     <field name="is_consignation"/>
                     <field name="supplier_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="det_address_id"/>
                 </xpath>
             </field>
     </record>
