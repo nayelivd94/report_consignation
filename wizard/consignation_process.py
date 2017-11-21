@@ -77,7 +77,7 @@ class PartnerProcess(models.TransientModel):
                         'order_id': po.id,
                         'product_id': x.product_id.id,
                         'name':x.product_id.name,
-                        'product_qty': x.ordered_qty,
+                        'product_qty': x.qty_done,
                         'product_uom': x.product_id.uom_po_id.id,
                         'price_unit': price_unit,
                         'currency_id': currency.id,
