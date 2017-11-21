@@ -9,7 +9,7 @@
                     <page string="Consignación">
                             <group>
                                 <group string="Configuración de Duplicidad">
-                                    <field name="locationconsignation_id"/>
+                                    <field name="pickingconsignation_id"/>
                                     <field name="suplier_id"/>
                                     <field name="companyconsignation_id"/>
                                 </group>

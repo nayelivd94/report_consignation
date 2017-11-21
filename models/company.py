@@ -10,6 +10,6 @@ _logger = logging.getLogger(__name__)
 
 class ResCompany(models.Model):
     _inherit = "res.company"
-    locationconsignation_id = fields.Many2one('stock.location', 'Ubicación')
+    pickingconsignation_id = fields.Many2one('stock.picking.type', 'Ubicación')
     suplier_id = fields.Many2one('res.partner', string='Proveedor')
     companyconsignation_id = fields.Many2one('res.company', string='Compañia')

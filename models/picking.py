@@ -25,11 +25,11 @@ class StockPicking(models.Model):
         if default is None:
             default={}
         id=self.company_id
-        if self.company_id.suplier_id.id is None or self.company_id.suplier_id.id is False or self.company_id.locationconsignation_id.id is None or self.company_id.locationconsignation_id.id is False:
+        if self.company_id.suplier_id.id is None or self.company_id.suplier_id.id is False or self.company_id.pickingconsignation_id.id is None or self.company_id.pickingconsignation_id.id is False:
             raise UserError(_("Configure la duplicidad de consignación en su compañia"))
         else:
             default['partner_id'] = self.company_id.suplier_id.id
-            default['location_id'] = self.company_id.locationconsignation_id.id
+            default['picking_type_id'] = self.company_id.pickingconsignation_id.id
             default['company_id'] = self.company_id.companyconsignation_id.id
         ids=super(StockPicking, self).copy(default=default)
         company=self.company_id.companyconsignation_id.id
