@@ -1,0 +1,10 @@
+<openerp>
+    <data>
+      <!-- Inherit the js template in the module and include js file there.  -->
+        <template id="assets_backend_pippa" name="pos_print" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/report_consignation/static/src/js/views/form.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

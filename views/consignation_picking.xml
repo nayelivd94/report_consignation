@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <record id="view_stockpicking_form_inherit" model="ir.ui.view">
+            <field name="name">view.stockpicking.form.add.text.field</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <button name="duplicate_consignation" string="Duplicar Consignacion"  type="object"/>
+                </xpath>
+            </field>
+    </record>
+    </data>
+</openerp>
