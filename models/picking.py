@@ -10,14 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
-
-    @api.multi
-    def copy(self, default=None):
-        if default is None:
-            default={}
-        default['partner_id'] = 7
-        default['company_id'] = 1
-        return super(StockPicking, self).copy(default=default)
+    is_consignation = fields.Boolean(string="es consignacion", default=False)
 
     @api.multi
     @api.returns('self', lambda value: value.id)
@@ -30,10 +23,13 @@ class StockPicking(models.Model):
         else:
             default['partner_id'] = self.company_id.suplier_id.id
             default['picking_type_id'] = self.company_id.pickingconsignation_id.id
-            default['company_id'] = self.company_id.companyconsignation_id.id
-        ids=super(StockPicking, self).copy(default=default)
-        company=self.company_id.companyconsignation_id.id
-        moves = self.env['stock.move'].search([('picking_id','=',self.id)])
+            default['is_consignation'] = True
+            #default['company_id'] = self.company_id.companyconsignation_id.id
+        ids= super(StockPicking, self).copy(default=default)
+        company = self.company_id.companyconsignation_id.id
+        stock = self.env['stock.picking'].search([('id', '=', ids.id)])
+        stock.write({'company_id': company})
+        moves = self.env['stock.move'].search([('picking_id', '=', ids.id)])
         for m in moves:
             m.write({'company_id': company})
         return ids
