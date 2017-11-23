@@ -29,6 +29,11 @@ class StockPicking(models.Model):
         company = self.company_id.companyconsignation_id.id
         stock = self.env['stock.picking'].search([('id', '=', ids.id)])
         stock.write({'company_id': company})
+        type=self.env['stock.picking.type']
+        pick=stock.picking_type_id
+        stock_name= type.search([('id','=',pick.id)])
+        nombre =stock_name.sequence_id.next_by_id()
+        #stock.write({'name': })
         moves = self.env['stock.move'].search([('picking_id', '=', ids.id)])
         for m in moves:
             m.write({'company_id': company})
