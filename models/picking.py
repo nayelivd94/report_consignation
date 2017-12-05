@@ -29,6 +29,7 @@ class StockPicking(models.Model):
         company = self.company_id.companyconsignation_id.id
         stock = self.env['stock.picking'].search([('id', '=', ids.id)])
         stock.write({'company_id': company})
+        stock.write({'picking_type_id':  self.company_id.pickingconsignation_id.id})
         type=self.env['stock.picking.type']
         pick=stock.picking_type_id
         stock_name= type.search([('id','=',pick.id)])

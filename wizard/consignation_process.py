@@ -24,8 +24,9 @@ class PartnerProcess(models.TransientModel):
     def process(self):
         check_id = self.env['report.saleconsignation'].browse(self._context.get('active_ids', []))
         total =len(check_id)
+        sSelf = self.sudo()
         check=check_id.filtered(lambda i: i.process==False)
-        location_obj = self.env['stock.location']
+        location_obj = sSelf.env['stock.location']
         location_ids = location_obj.search([('is_consignation', '=', True)])
         for loc in location_ids:
             va=check_id.ids
@@ -35,7 +36,7 @@ class PartnerProcess(models.TransientModel):
                     raise UserError(_("La Ubicación %s no tiene asignada un proveedor de consignación. ")%(loc.name))
                 currency = loc.supplier_id.property_product_pricelist.currency_id
                 purchase = {
-                    'name': self.env['ir.sequence'].next_by_code('purchase.order'),
+                    'name': sSelf.env['ir.sequence'].next_by_code('purchase.order'),
                     'currency_id': currency.id,
                     'partner_id': loc.supplier_id.id,
                     'company_id': loc.company_id.id,
@@ -45,11 +46,11 @@ class PartnerProcess(models.TransientModel):
                     'picking_type_id': loc.picking_type_id.id,
                     'dest_address_id': loc.det_address_id.id,
                 }
-                po = self.env['purchase.order'].create(purchase)
+                po = sSelf.env['purchase.order'].create(purchase)
                 line =[]
                 for x in record:
                     product_uom=x.product_id.uom_po_id.id
-                    procurement_uom_po_qty = self.env['product.uom']._compute_quantity(x.ordered_qty,product_uom)
+                    procurement_uom_po_qty = sSelf.env['product.uom']._compute_quantity(x.ordered_qty,product_uom)
                     seller = x.product_id._select_seller(
                         partner_id=loc.supplier_id,
                         quantity=procurement_uom_po_qty,
@@ -62,7 +63,7 @@ class PartnerProcess(models.TransientModel):
                     if taxes_id:
                         taxes_id = taxes_id.filtered(lambda a: a.company_id.id == loc.company_id.id)
 
-                    price_unit = self.env['account.tax']._fix_tax_included_price(seller.price,
+                    price_unit = sSelf.env['account.tax']._fix_tax_included_price(seller.price,
                                                                                  x.product_id.supplier_taxes_id,
                                                                                  taxes_id) if seller else 0.0
                     if price_unit and seller and po.currency_id and seller.currency_id != po.currency_id:
@@ -70,7 +71,7 @@ class PartnerProcess(models.TransientModel):
 
 
 
-                    date_planned = self.env['purchase.order.line']._get_date_planned(seller, po=po).strftime(
+                    date_planned = sSelf.env['purchase.order.line']._get_date_planned(seller, po=po).strftime(
                         DEFAULT_SERVER_DATETIME_FORMAT)
 
                     purchase_line = {
@@ -89,9 +90,9 @@ class PartnerProcess(models.TransientModel):
 
 
                     }
-                    self.env['purchase.order.line'].create(purchase_line)
+                    sSelf.env['purchase.order.line'].create(purchase_line)
                     line.append(x.id)
-                    pack = self.env['stock.pack.operation'].search([('id','=',x.id)])
+                    pack = sSelf.env['stock.pack.operation'].search([('id','=',x.id)])
                     pack.write({'consignation': True})
                 po._amount_all()
                 po.write({'origin': line})
